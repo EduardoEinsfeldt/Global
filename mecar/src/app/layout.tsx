@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Cabecalho from "@/components/Cabecalho/Cabecalho";
 
 export const metadata: Metadata = {
   title: "Mecar",
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
 export const viewport = {
   width:"device-width",
   initial_scale:1.0,
-  colorScheme:"dark"
+  colorScheme:"light"
 }
 
 export default function RootLayout({
@@ -20,6 +21,7 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <body>
+        <Cabecalho/>
         {children}
       </body>
     </html>
