@@ -21,3 +21,4 @@
  #### Vercel: https://global-mecar.vercel.app/
  #### Repositório do Java: https://github.com/EduardoEinsfeldt/MecarJava
  #### Repositório do Python: https://github.com/EduardoEinsfeldt/MecarPython
+ #### Link do Pitch: https://youtu.be/7ZQJvbTlo7U
