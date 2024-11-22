@@ -10,6 +10,7 @@
  #### Selecione o diretório "mecar", através de *cd mecar*.
  #### Instale as depêndencias: *npm i*   -   *npm install react-hook-form* - *npm install react-icons*.
  #### Execute: *npm run dev*
+ #### Para que funcione as apis, utilize do Java e do Python.
 
 ### Aluno:
  #### Eduardo Augusto Pelegrino Einsfeldt
