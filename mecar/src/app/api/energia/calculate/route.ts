@@ -22,12 +22,12 @@ export async function GET(request: Request) {
     } else {
       const errorData = await response.text();
       return NextResponse.json(
-        { error: `Failed to calculate emissions: ${errorData}` },
+        { error: `Falha em calcular emissões: ${errorData}` },
         { status: 400 }
       );
     }
   } catch (error) {
-    console.error("Error during emissions calculation:", error);
+    console.error("Erro durante calculo de emissões:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }

@@ -14,18 +14,18 @@ export async function POST(request: Request) {
 
     if (response.ok) {
       return NextResponse.json(
-        { message: "Energy consumption added successfully." },
+        { message: "Consumo de energia adicionado com sucesso." },
         { status: 201 }
       );
     } else {
       const errorData = await response.text();
       return NextResponse.json(
-        { error: `Failed to add energy consumption: ${errorData}` },
+        { error: `Falha em adicionar o consumo de energia: ${errorData}` },
         { status: 400 }
       );
     }
   } catch (error) {
-    console.error("Error during adding energy consumption:", error);
+    console.error("Erro ao tentar adicionar consumo de energia:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }

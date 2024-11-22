@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -9,6 +10,7 @@ export default function Login() {
   });
 
   const [error, setError] = useState('');
+  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -36,8 +38,12 @@ export default function Login() {
       });
 
       if (response.ok) {
+        // Set session to localStorage to indicate login
+        localStorage.setItem('userSession', 'true');
+        // Manually dispatch a storage event to notify other components of the change
+        window.dispatchEvent(new Event('storage'));
         alert('Login bem-sucedido!');
-        window.location.href = '/';
+        router.push('/');
       } else {
         const errorData = await response.json();
         setError('Login falhou: ' + errorData.error);

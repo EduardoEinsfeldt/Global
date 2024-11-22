@@ -1,33 +1,36 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function EnergyConsumptionPage() {
-  // State to handle consumption input, error messages, and results
   const [consumptionKwh, setConsumptionKwh] = useState("");
   const [emissionResults, setEmissionResults] = useState<{
     [key: string]: number;
   } | null>(null);
   const [error, setError] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // Handle input change
+  // Check if the user is logged in
+  useEffect(() => {
+    const userSession = localStorage.getItem("userSession");
+    setIsLoggedIn(userSession === "true");
+  }, []);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setConsumptionKwh(e.target.value);
   };
 
-  // Handle form submission to add energy consumption
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // Prevent page refresh
+    e.preventDefault();
 
     if (!consumptionKwh) {
-      setError("Please enter the energy consumption in kWh.");
+      setError("Por favor, coloque seu consumo de energia em kWh.");
       return;
     }
 
     setError("");
 
     try {
-      // Make POST request to save consumption
       const postResponse = await fetch("/api/energia", {
         method: "POST",
         headers: {
@@ -39,7 +42,6 @@ export default function EnergyConsumptionPage() {
       });
 
       if (postResponse.ok) {
-        // After successful POST request, make GET request to calculate emissions
         const getResponse = await fetch(
           `/api/energia/calculate?consumptionKwh=${consumptionKwh}`
         );
@@ -49,27 +51,45 @@ export default function EnergyConsumptionPage() {
           setEmissionResults(data);
         } else {
           const errorData = await getResponse.text();
-          setError("Failed to calculate emissions: " + errorData);
+          setError("Falha em calcular emissões: " + errorData);
         }
       } else {
         const postErrorData = await postResponse.text();
-        setError("Failed to add energy consumption: " + postErrorData);
+        setError("Falha em adicionar consumo de energia: " + postErrorData);
       }
     } catch (error) {
-      console.error("Error during request: ", error);
+      console.error("Erro durante Request: ", error);
       setError(
-        "An error occurred during the process. Please try again later."
+        "Um erro ocorreu durante o processo, por favor tente novamente mais tarde."
       );
     }
   };
 
+  if (!isLoggedIn) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen p-6">
+        <h2 className="text-2xl font-bold mb-6">
+          Você precisa estar logado para acessar essa funcionalidade.
+        </h2>
+        <a
+          href="/login"
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
+        >
+          Fazer Login
+        </a>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-6">
-      <h2 className="text-2xl font-bold mb-6">Calculate Carbon Emissions</h2>
+      <h2 className="text-2xl font-bold mb-6">
+        Calcular Emissão de Gás Baseada na Energia Consumida
+      </h2>
       <form onSubmit={handleSubmit} className="w-full max-w-sm">
         <div className="mb-4">
           <label htmlFor="consumptionKwh" className="block mb-2">
-            Energy Consumption (kWh)
+            Consumo de Energia (kWh)
           </label>
           <input
             id="consumptionKwh"
@@ -89,13 +109,15 @@ export default function EnergyConsumptionPage() {
           type="submit"
           className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
         >
-          Calculate
+          Calcular
         </button>
       </form>
 
       {emissionResults && (
         <div className="mt-6 w-full max-w-md">
-          <h3 className="text-xl font-semibold mb-4">Carbon Emissions (g CO₂)</h3>
+          <h3 className="text-xl font-semibold mb-4">
+            Emissões de Carbono (g CO₂)
+          </h3>
           <ul className="list-disc pl-6">
             {Object.entries(emissionResults).map(([energyType, value]) => (
               <li key={energyType}>
