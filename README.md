@@ -7,11 +7,11 @@
 
 
 ### Para utilizar o projeto:
- # Selecione o diretório "mecar", através de *cd mecar*.
- # Instale as depêndencias: *npm i*   -   *npm install react-hook-form*.
- # Execute: *npm run dev*
+ #### Selecione o diretório "mecar", através de *cd mecar*.
+ #### Instale as depêndencias: *npm i*   -   *npm install react-hook-form*.
+ #### Execute: *npm run dev*
 
 ### Aluno:
- # Eduardo Augusto Pelegrino Einsfeldt
- # RM: 556460
- # Turma: 1TDSPM
+ #### Eduardo Augusto Pelegrino Einsfeldt
+ #### RM: 556460
+ #### Turma: 1TDSPM
