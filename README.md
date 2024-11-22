@@ -15,3 +15,8 @@
  #### Eduardo Augusto Pelegrino Einsfeldt
  #### RM: 556460
  #### Turma: 1TDSPM
+
+### Links:
+ #### Vercel: https://global-mecar.vercel.app/
+ #### Repositório do Java: https://github.com/EduardoEinsfeldt/MecarJava
+ #### Repositório do Python: https://github.com/EduardoEinsfeldt/MecarPython
