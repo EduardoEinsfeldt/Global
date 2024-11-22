@@ -51,31 +51,44 @@ export default function Cabecalho() {
   };
 
   return (
-    <nav className="cabecalho">
-      <ul className="flex space-x-4">
-        <li>
-          <Link href="/">Home</Link>
-        </li>
-        <li>
-            <Link href="/energia">Consumo de Energia</Link>
-        </li>
-        {!isLoggedIn ? (
-          <>
-            <li>
-              <Link href="/cadastro">Cadastrar</Link>
-            </li>
-            <li>
-              <Link href="/login">Login</Link>
-            </li>
-          </>
-        ) : (
-          <li>
-            <button onClick={handleLogout} className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700">
-              Logout
-            </button>
+    <nav className="cabecalho bg-gradient-to-r from-green-700 to-green-900 p-6 shadow-lg">
+      <div className="container mx-auto flex justify-between items-center">
+        <ul className="flex space-x-8 text-white text-lg font-bold">
+          <li className="hover:text-yellow-300 transition duration-300">
+            <Link href="/">Home</Link>
           </li>
-        )}
-      </ul>
+          <li className="hover:text-yellow-300 transition duration-300">
+            <Link href="/energia">Consumo</Link>
+          </li>
+          <li className="hover:text-yellow-300 transition duration-300">
+            <Link href="/medias">Média</Link>
+          </li>
+          <li className="hover:text-yellow-300 transition duration-300">
+            <Link href="/sobre-nos">Sobre Nós</Link>
+          </li>
+        </ul>
+        <ul className="flex space-x-8 text-white text-lg font-bold">
+          {!isLoggedIn ? (
+            <>
+              <li className="hover:text-yellow-300 transition duration-300">
+                <Link href="/cadastro">Cadastrar</Link>
+              </li>
+              <li className="hover:text-yellow-300 transition duration-300">
+                <Link href="/login">Login</Link>
+              </li>
+            </>
+          ) : (
+            <li>
+              <button 
+                onClick={handleLogout} 
+                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700 transition-all duration-300 shadow-md hover:shadow-lg"
+              >
+                Logout
+              </button>
+            </li>
+          )}
+        </ul>
+      </div>
     </nav>
   );
 }

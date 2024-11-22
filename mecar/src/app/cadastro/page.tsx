@@ -55,55 +55,58 @@ export default function Cadastro() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-6">
-      <h2 className="text-2xl font-bold mb-6">Bem-Vindo!</h2>
-      <form onSubmit={handleSubmit} className="w-full max-w-sm">
-        <div className="mb-4">
-          <label htmlFor="username" className="block mb-2">Nome de Usuário</label>
+    <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-gray-200">
+      <h2 className="text-3xl font-bold mb-10 text-green-800">Bem-Vindo!</h2>
+      <form onSubmit={handleSubmit} className="w-full max-w-sm bg-white rounded-lg p-8 shadow-lg">
+        <div className="mb-6">
+          <label htmlFor="username" className="block text-lg font-semibold mb-3 text-gray-800">Nome de Usuário</label>
           <input
             id="username"
             name="username"
             type="text"
             value={formData.username}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
+            className="w-full p-4 border rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-600"
             required
           />
         </div>
-
-        <div className="mb-4">
-          <label htmlFor="password" className="block mb-2">Senha</label>
+  
+        <div className="mb-6">
+          <label htmlFor="password" className="block text-lg font-semibold mb-3 text-gray-800">Senha</label>
           <input
             id="password"
             name="password"
             type="password"
             value={formData.password}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
+            className="w-full p-4 border rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-600"
             required
             minLength={6}
           />
         </div>
-
-        <div className="mb-4">
-          <label htmlFor="confirmPassword" className="block mb-2">Confirme a Senha</label>
+  
+        <div className="mb-6">
+          <label htmlFor="confirmPassword" className="block text-lg font-semibold mb-3 text-gray-800">Confirme a Senha</label>
           <input
             id="confirmPassword"
             name="confirmPassword"
             type="password"
             value={formData.confirmPassword}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
+            className="w-full p-4 border rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-600"
             required
           />
         </div>
-
-        {error && <p className="text-red-500 mb-4">{error}</p>}
-
-        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+  
+        {error && <p className="text-red-600 mb-6">{error}</p>}
+  
+        <button 
+          type="submit" 
+          className="w-full bg-green-600 text-white px-6 py-4 rounded-lg hover:bg-green-700 transition-all duration-300"
+        >
           Cadastrar
         </button>
       </form>
     </div>
-  );
+  );  
 }

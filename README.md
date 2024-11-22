@@ -8,7 +8,7 @@
 
 ### Para utilizar o projeto:
  #### Selecione o diretório "mecar", através de *cd mecar*.
- #### Instale as depêndencias: *npm i*   -   *npm install react-hook-form*.
+ #### Instale as depêndencias: *npm i*   -   *npm install react-hook-form* - *npm install react-icons*.
  #### Execute: *npm run dev*
 
 ### Aluno:

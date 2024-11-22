@@ -223,150 +223,151 @@ export default function MediasPage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-6">
-      <h2 className="text-2xl font-bold mb-6">Gerenciamento de Medias de Emissões e Tipos de Fontes de Energia</h2>
+    <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-gray-200 text-gray-900">
+      <h2 className="text-3xl font-bold mb-10 text-green-800">
+        Gerenciamento de Medias de Emissões e Tipos de Fontes de Energia
+      </h2>
 
-      {/* Add Tipo de Fonte */}
-      <div className="mb-8">
-        <h3 className="text-xl mb-4">Adicionar Tipo de Fonte de Energia</h3>
-        <input
-          type="text"
-          value={novoNomeFonte}
-          onChange={(e) => setNovoNomeFonte(e.target.value)}
-          placeholder="Nome do Tipo de Fonte"
-          className="p-2 border rounded mb-2"
-        />
-        <button
-          onClick={handleAddTipoFonte}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
-        >
-          Adicionar
-        </button>
+      <div className="flex flex-wrap justify-center gap-10">
+        <div className="w-full max-w-md bg-white rounded-lg p-8 shadow-lg">
+          <h3 className="text-xl font-semibold mb-6 text-gray-800">Adicionar Tipo de Fonte de Energia</h3>
+          <input
+            type="text"
+            value={novoNomeFonte}
+            onChange={(e) => setNovoNomeFonte(e.target.value)}
+            placeholder="Nome do Tipo de Fonte"
+            className="w-full p-3 border rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-600 mb-4"
+          />
+          <button
+            onClick={handleAddTipoFonte}
+            className="w-full bg-green-600 text-white px-4 py-3 rounded-lg hover:bg-green-700 transition-all duration-300"
+          >
+            Adicionar
+          </button>
+        </div>
+
+        <div className="w-full max-w-md bg-white rounded-lg p-8 shadow-lg">
+          <h3 className="text-xl font-semibold mb-6 text-gray-800">Selecionar Tipo de Fonte para Ver Emissões</h3>
+          <select
+            value={selectedFonteId}
+            onChange={(e) => setSelectedFonteId(e.target.value)}
+            className="w-full p-3 border rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-600 mb-4"
+          >
+            <option value="" disabled>Selecione o ID do Tipo de Fonte</option>
+            {tiposFonte.map((fonte) => (
+              <option key={fonte.id_tipo_fonte} value={fonte.id_tipo_fonte}>
+                {fonte.nome} (ID: {fonte.id_tipo_fonte})
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="w-full max-w-md bg-white rounded-lg p-8 shadow-lg">
+          <h3 className="text-xl font-semibold mb-6 text-gray-800">Adicionar Nova Emissão</h3>
+          <select
+            value={novaEmissao.idTipoFonte}
+            onChange={(e) => setNovaEmissao({ ...novaEmissao, idTipoFonte: e.target.value })}
+            className="w-full p-3 border rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-600 mb-4"
+            required
+          >
+            <option value="" disabled>Selecione o ID do Tipo de Fonte</option>
+            {tiposFonte.map((fonte) => (
+              <option key={fonte.id_tipo_fonte} value={fonte.id_tipo_fonte}>
+                {fonte.nome} (ID: {fonte.id_tipo_fonte})
+              </option>
+            ))}
+          </select>
+
+          <input
+            type="number"
+            value={novaEmissao.emissao}
+            onChange={(e) => setNovaEmissao({ ...novaEmissao, emissao: e.target.value })}
+            placeholder="Valor da Emissão (em kg CO₂)"
+            className="w-full p-3 border rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-600 mb-4"
+            required
+          />
+
+          <button
+            onClick={handleAddEmissao}
+            className="w-full bg-green-600 text-white px-4 py-3 rounded-lg hover:bg-green-700 transition-all duration-300"
+          >
+            Adicionar Emissão
+          </button>
+        </div>
+
+        <div className="w-full max-w-md bg-white rounded-lg p-8 shadow-lg">
+          <h3 className="text-xl font-semibold mb-6 text-gray-800">Estatísticas de Emissões</h3>
+          <button
+            onClick={handleFetchEstatisticas}
+            className="w-full bg-blue-600 text-white px-4 py-3 rounded-lg hover:bg-blue-700 transition-all duration-300 mb-6"
+          >
+            Mostrar Estatísticas
+          </button>
+          {estatisticas.max && <p className="text-gray-800 mb-2">Maior Emissão: {estatisticas.max.emissao}</p>}
+          {estatisticas.min && <p className="text-gray-800 mb-2">Menor Emissão: {estatisticas.min.emissao}</p>}
+          {estatisticas.avg && <p className="text-gray-800">Média das Emissões: {estatisticas.avg}</p>}
+        </div>
       </div>
 
-      {/* Select Tipo de Fonte to Load Emissions */}
-      <div className="mb-8">
-        <h3 className="text-xl mb-4">Selecionar Tipo de Fonte para Ver Emissões</h3>
-        <select
-          value={selectedFonteId}
-          onChange={(e) => setSelectedFonteId(e.target.value)}
-          className="p-2 border rounded mb-2 w-full"
-        >
-          <option value="" disabled>Selecione o ID do Tipo de Fonte</option>
-          {tiposFonte.map((fonte) => (
-            <option key={fonte.id_tipo_fonte} value={fonte.id_tipo_fonte}>
-              {fonte.nome} (ID: {fonte.id_tipo_fonte})
-            </option>
-          ))}
-        </select>
-      </div>
+      {error && <p className="text-red-600 mb-4">{error}</p>}
 
-      {/* Add Emissao */}
-      <div className="mb-8">
-        <h3 className="text-xl mb-4">Adicionar Nova Emissão</h3>
-        <select
-          value={novaEmissao.idTipoFonte}
-          onChange={(e) => setNovaEmissao({ ...novaEmissao, idTipoFonte: e.target.value })}
-          className="p-2 border rounded mb-2 w-full"
-          required
-        >
-          <option value="" disabled>Selecione o ID do Tipo de Fonte</option>
-          {tiposFonte.map((fonte) => (
-            <option key={fonte.id_tipo_fonte} value={fonte.id_tipo_fonte}>
-              {fonte.nome} (ID: {fonte.id_tipo_fonte})
-            </option>
-          ))}
-        </select>
-
-        <input
-          type="number"
-          value={novaEmissao.emissao}
-          onChange={(e) => setNovaEmissao({ ...novaEmissao, emissao: e.target.value })}
-          placeholder="Valor da Emissão (em kg CO₂)"
-          className="p-2 border rounded mb-2 w-full"
-          required
-        />
-
-        <button
-          onClick={handleAddEmissao}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
-        >
-          Adicionar Emissão
-        </button>
-      </div>
-
-      {/* Estatisticas */}
-      <div className="mb-8">
-        <h3 className="text-xl mb-4">Estatísticas de Emissões</h3>
-        <button
-          onClick={handleFetchEstatisticas}
-          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700"
-        >
-          Mostrar Estatísticas
-        </button>
-        {estatisticas.max && <p className="mt-4">Maior Emissão: {estatisticas.max.emissao}</p>}
-        {estatisticas.min && <p>Menor Emissão: {estatisticas.min.emissao}</p>}
-        {estatisticas.avg && <p>Média das Emissões: {estatisticas.avg}</p>}
-      </div>
-
-      {error && <p className="text-red-500 mb-4">{error}</p>}
-
-      {/* Tipos de Fontes List */}
-      <div className="mt-6 w-full max-w-md">
-        <h3 className="text-xl font-semibold mb-4">Tipos de Fontes de Energia</h3>
-        <ul className="list-disc pl-6">
-          {tiposFonte.map((fonte) => (
-            <li key={fonte.id_tipo_fonte}>
-              {fonte.nome} 
-              <button
-                onClick={() => handleUpdateTipoFonte(fonte.id_tipo_fonte, prompt("Novo nome:", fonte.nome) || fonte.nome)}
-                className="bg-yellow-500 text-white ml-2 px-2 rounded hover:bg-yellow-700"
-              >
-                Editar
-              </button>
-              <button
-                onClick={() => handleDeleteTipoFonte(fonte.id_tipo_fonte)}
-                className="bg-red-500 text-white ml-2 px-2 rounded hover:bg-red-700"
-              >
-                Deletar
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      {/* Emissões List */}
-            <div className="mt-6 w-full max-w-md">
-        <h3 className="text-xl font-semibold mb-4">Emissões Registradas</h3>
-        <ul className="list-disc pl-6">
-            {Array.isArray(emissoes) && emissoes.length > 0 ? (
-            emissoes.map((emissao) => (
-                <li key={emissao.id_emissao}>
-                Fonte: {emissao.tipo_fonte?.nome ?? "Unknown"}, Emissão: {emissao.emissao} kg CO₂
+      <div className="flex flex-wrap justify-center gap-10 w-full mt-10">
+        <div className="w-full max-w-md bg-white rounded-lg p-8 shadow-lg">
+          <h3 className="text-xl font-semibold mb-6 text-gray-800">Tipos de Fontes de Energia</h3>
+          <ul className="list-disc pl-6 text-gray-800">
+            {tiposFonte.map((fonte) => (
+              <li key={fonte.id_tipo_fonte} className="mb-4">
+                <span className="font-medium">{fonte.nome}</span>
                 <button
+                  onClick={() => handleUpdateTipoFonte(fonte.id_tipo_fonte, prompt("Novo nome:", fonte.nome) || fonte.nome)}
+                  className="bg-yellow-500 text-white ml-4 px-3 py-2 rounded hover:bg-yellow-600 transition-all duration-300"
+                >
+                  Editar
+                </button>
+                <button
+                  onClick={() => handleDeleteTipoFonte(fonte.id_tipo_fonte)}
+                  className="bg-red-500 text-white ml-2 px-3 py-2 rounded hover:bg-red-600 transition-all duration-300"
+                >
+                  Deletar
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="w-full max-w-md bg-white rounded-lg p-8 shadow-lg">
+          <h3 className="text-xl font-semibold mb-6 text-gray-800">Emissões Registradas</h3>
+          <ul className="list-disc pl-6 text-gray-800">
+            {Array.isArray(emissoes) && emissoes.length > 0 ? (
+              emissoes.map((emissao) => (
+                <li key={emissao.id_emissao} className="mb-4">
+                  <span className="font-medium">Fonte:</span> {emissao.tipo_fonte?.nome ?? "Unknown"}, <span className="font-medium">Emissão:</span> {emissao.emissao} kg CO₂
+                  <button
                     onClick={() =>
-                    handleUpdateEmissao(
+                      handleUpdateEmissao(
                         emissao.id_emissao,
                         parseFloat(prompt("Novo valor de emissão:", String(emissao.emissao)) || String(emissao.emissao))
-                    )
+                      )
                     }
-                    className="bg-yellow-500 text-white ml-2 px-2 rounded hover:bg-yellow-700"
-                >
+                    className="bg-yellow-500 text-white ml-4 px-3 py-2 rounded hover:bg-yellow-600 transition-all duration-300"
+                  >
                     Editar
-                </button>
-                <button
+                  </button>
+                  <button
                     onClick={() => handleDeleteEmissao(emissao.id_emissao)}
-                    className="bg-red-500 text-white ml-2 px-2 rounded hover:bg-red-700"
-                >
+                    className="bg-red-500 text-white ml-2 px-3 py-2 rounded hover:bg-red-600 transition-all duration-300"
+                  >
                     Deletar
-                </button>
+                  </button>
                 </li>
-            ))
+              ))
             ) : (
-            <li>Nenhuma emissão registrada</li>
+              <li className="text-gray-800">Nenhuma emissão registrada</li>
             )}
-        </ul>
+          </ul>
         </div>
+      </div>
     </div>
   );
+
 }

@@ -10,7 +10,6 @@ export default function EnergyConsumptionPage() {
   const [error, setError] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // Check if the user is logged in
   useEffect(() => {
     const userSession = localStorage.getItem("userSession");
     setIsLoggedIn(userSession === "true");
@@ -67,13 +66,13 @@ export default function EnergyConsumptionPage() {
 
   if (!isLoggedIn) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen p-6">
-        <h2 className="text-2xl font-bold mb-6">
+      <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-gray-100 text-gray-900">
+        <h2 className="text-3xl font-bold mb-8 text-green-800">
           Você precisa estar logado para acessar essa funcionalidade.
         </h2>
         <a
           href="/login"
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
+          className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition duration-300 shadow-md"
         >
           Fazer Login
         </a>
@@ -82,51 +81,53 @@ export default function EnergyConsumptionPage() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-6">
-      <h2 className="text-2xl font-bold mb-6">
-        Calcular Emissão de Gás Baseada na Energia Consumida
-      </h2>
-      <form onSubmit={handleSubmit} className="w-full max-w-sm">
-        <div className="mb-4">
-          <label htmlFor="consumptionKwh" className="block mb-2">
-            Consumo de Energia (kWh)
-          </label>
-          <input
-            id="consumptionKwh"
-            name="consumptionKwh"
-            type="number"
-            value={consumptionKwh}
-            onChange={handleChange}
-            className="w-full p-2 border rounded"
-            required
-            min="0"
-          />
-        </div>
+    <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-gray-100 text-gray-900">
+      <div className="w-full max-w-2xl">
+        <h2 className="text-4xl font-bold mb-12 text-green-800 text-center">
+          Calcular Emissão de Gás Baseada na Energia Consumida
+        </h2>
+        <form onSubmit={handleSubmit} className="bg-white rounded-lg p-10 shadow-xl mb-10">
+          <div className="mb-6">
+            <label htmlFor="consumptionKwh" className="block mb-3 font-semibold text-gray-800">
+              Consumo de Energia (kWh)
+            </label>
+            <input
+              id="consumptionKwh"
+              name="consumptionKwh"
+              type="number"
+              value={consumptionKwh}
+              onChange={handleChange}
+              className="w-full p-4 border rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-600 shadow-sm"
+              required
+              min="0"
+            />
+          </div>
 
-        {error && <p className="text-red-500 mb-4">{error}</p>}
+          {error && <p className="text-red-600 mb-6 font-medium">{error}</p>}
 
-        <button
-          type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
-        >
-          Calcular
-        </button>
-      </form>
+          <button
+            type="submit"
+            className="w-full bg-green-600 text-white px-6 py-4 rounded-lg hover:bg-green-700 transition-all duration-300 shadow-md font-semibold text-lg"
+          >
+            Calcular
+          </button>
+        </form>
 
-      {emissionResults && (
-        <div className="mt-6 w-full max-w-md">
-          <h3 className="text-xl font-semibold mb-4">
-            Emissões de Carbono (g CO₂)
-          </h3>
-          <ul className="list-disc pl-6">
-            {Object.entries(emissionResults).map(([energyType, value]) => (
-              <li key={energyType}>
-                {energyType}: {value.toFixed(2)} g CO₂
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+        {emissionResults && (
+          <div className="bg-white rounded-lg p-10 shadow-xl">
+            <h3 className="text-2xl font-bold mb-6 text-gray-800 text-center">
+              Emissões de Carbono (g CO₂)
+            </h3>
+            <ul className="list-disc pl-10 text-gray-800 space-y-2">
+              {Object.entries(emissionResults).map(([energyType, value]) => (
+                <li key={energyType} className="text-lg">
+                  {energyType}: {value.toFixed(2)} g CO₂
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
     </div>
   );
-}
+} 
